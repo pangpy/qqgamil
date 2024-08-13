@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; background-color: #f0f2f5; }
+        .container {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            max-width: 500px;
+            width: 100%;
+        }
+        h1 { color: #007bff; text-align: center; margin-bottom: 20px; }
+        form { display: flex; flex-direction: column; }
+        label { margin-bottom: 8px; font-weight: bold; }
+        input, select { width: calc(100% - 24px); padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 4px; }
+        button { padding: 12px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+        .messages { background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 4px; margin-bottom: 20px; }
+        .button-group { display: flex; justify-content: space-between; }
+        .button-group button { width: 48%; }
+        .code-container { display: flex; justify-content: space-between; align-items: center; }
+        .code-container input { width: calc(100% - 150px); }
+        .code-container button { width: 140px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Register</h1>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="messages">
+                    <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endwith %}
+        <form action="{{ url_for('register') }}" method="post">
+            {{ form.hidden_tag() }}
+            <label for="username">Username:</label>
+            {{ form.username() }}
+            <label for="email">Email:</label>
+            {{ form.email() }}
+            <label for="password">Password:</label>
+            {{ form.password() }}
+            <label for="email_service">Select Email Service:</label>
+            {{ form.email_service() }}
+            <label for="code">Verification Code:</label>
+            <div class="code-container">
+                <input type="text" id="code" name="code" required>
+                <button type="button" onclick="sendVerificationCode()">Get Code</button>
+            </div>
+            <div class="button-group">
+                {{ form.submit(label='Register') }}
+                <button type="button" onclick="window.location.href='{{ url_for('login') }}'">Login</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function sendVerificationCode() {
+            // 发起请求获取验证码（这里可以通过 AJAX 发送请求）
+            alert('A verification code will be sent to your email.');
+        }
+    </script>
+</body>
+</html>
